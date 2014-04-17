@@ -1,0 +1,9 @@
+{
+    "site": {
+        "name": "My Púca Site",
+        "title": "{{site.name}} - {{page.title}}"
+    },
+    "theme": "matte",
+    "port": 3000,
+    "mongo": false
+}

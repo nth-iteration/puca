@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+        <script src="/puca/include/puca.min.js"></script>
+        <script src="/puca/api/pages/current"></script>
+        <script src="/puca/plugins/timestamp.js"></script>
+        
+        <link rel="stylesheet" href="/puca/theme/css/style.css">
+        <script src="/puca/theme/js/main.js"></script>
+    </head>
+    <body>
+        
+        <h1>{{site.name}}</h1>
+        
+        <h1>{{page.title}}</h1>
+        {{{page.body}}}
+        
+        <p>The current time is: <x-timestamp></x-timestamp></p>
+    
+        <h2>Active Plugins:</h2>
+        
+        <ul>
+        {{#each plugins}}
+            <li>{{name}}, {{description}}</li>
+        {{/each}}
+        </ul>
+
+    </body>
+</html>

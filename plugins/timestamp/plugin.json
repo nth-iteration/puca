@@ -1,0 +1,6 @@
+{
+    "name": "Timestamp",
+    "description": "Prints the curent time.",
+    "author": "Oliver Moran <oliver.moran@gmail.com>",
+    "enabled": true
+}

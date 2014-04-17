@@ -1,0 +1,44 @@
+{
+  "name": "puca",
+  "version": "0.0.0",
+  "description": "A plugin- and theme-based blogging / CMS platform for NodeJS",
+  "main": "server.js",
+  "dependencies": {
+    "body-parser": "~1.0.2",
+    "express": "~4.0.0",
+    "nedb": "~0.10.5",
+    "uglify-js": "~2.4.13",
+    "tosource.js": "~0.1.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nth-iteration/puca.git"
+  },
+  "keywords": [
+    "node",
+    "blog",
+    "blogging",
+    "CMS",
+    "content",
+    "mangagement",
+    "system",
+    "web",
+    "site",
+    "website",
+    "platform"
+  ],
+  "contributors": [
+    "Oliver Moran <oliver.moran@gmail.com> (http://www.nth-iteration.ie)",
+    "Matt Reilly <matur1981@gmail.com> (http://lickmystyle.com)"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nth-iteration/puca/issues"
+  },
+  "homepage": "https://github.com/nth-iteration/puca"
+}

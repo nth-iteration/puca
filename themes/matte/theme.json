@@ -1,0 +1,13 @@
+{
+    "name": "Matte",
+    "description": "A default style for Púca.",
+    "author": "Matthew Reilley <matt@lickmystyle.com>",
+    "default": "default.handlebars",
+    "templates": [
+        {
+            "name": "Default",
+            "description": "A simple page template",
+            "file": "default.handlebars"
+        }
+    ]
+}

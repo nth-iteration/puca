@@ -1,0 +1,15 @@
+body {
+    padding-top: 1em;
+}
+
+.hand {
+    cursor: pointer
+}
+
+.bootstrap-tagsinput {
+    width: 100%;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}

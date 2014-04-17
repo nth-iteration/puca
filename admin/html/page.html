@@ -1,0 +1,39 @@
+<section>
+    <ul class="nav nav-tabs">
+        <li ng-repeat="plugin in plugins" class="disabled" ng-class="getClassName(plugin)">
+            <a class="hand" ng-click="select(plugin)">
+                {{plugin.name}}
+            </a>
+        </li>
+    </ul>
+    
+    <form role="form">
+    <p>&nbsp;</p>
+    <p>
+        <input ng-model="page.title" type="text" class="form-control" placeholder="Page Title" />
+        <p class="small"><em>URL: 
+            <a ng-if="page.title && page.title != ''" href="http://127.0.0.1:3000/{{page.title}}" target="_blank" disabled="disabled">http://127.0.0.1:3000/{{page.title}}</a>
+            <span ng-if="!page.title || page.title == ''">http://127.0.0.1/...</span>
+        </em></p>
+    </p>
+    <p>
+        <textarea ng-model="page.body" id="body-editor" class="form-control" rows="10"></textarea>
+    </p>
+    <p>
+        <label for="tags">Tags:</label>
+        <bootstrap-tagsinput ng-model="page.tags" id="tags" tagclass="getTagClass" confirmKeys="getConfirmKeys"></bootstrap-tagsinput>
+    </p>
+    <p>
+        <label for="template">Template:</label>
+        <select id="template" class="form-control" ng-model="selectedTemplate" ng-options="t.name for t in templates">
+        </select>
+    </p>
+    <p>
+        <button ng-if="!page.published || page.published == false" class="btn btn-primary" ng-click="publish()" ng-disabled="!page.title || page.title == ''">Publish</button>
+        <button ng-if="page.published == true" class="btn btn-default" ng-click="publish()" ng-disabled="!page.title || page.title == ''">Unpublish</button>
+        <button class="btn btn-default" ng-click="save()" ng-disabled="!page.title || page.title == ''">Save</button>
+        <button class="btn btn-danger pull-right" ng-click="delete()" ng-disabled="history.length == 0 || (!page.title || page.title == '')">Delete</button>
+    </p>
+        
+    </form>
+</section>
