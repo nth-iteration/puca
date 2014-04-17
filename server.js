@@ -19,9 +19,11 @@ var tosource = require('tosource.js');
 
 db.users = new Datastore({ filename: './data/users.db' });
 db.pages = new Datastore({ filename: './data/pages.db' });
+db.archive = new Datastore({ filename: './data/archive.db' });
 
 db.users.loadDatabase();
 db.pages.loadDatabase();
+db.archive.loadDatabase();
 
 // load the config settings
 var config = JSON.parse(fs.readFileSync("config.json" ));
@@ -47,28 +49,32 @@ app.get('/puca/api/theme', function(req, res) {
 });
 
 app.put('/puca/api/pages/:title', function(req, res) {
-    db.pages.insert({
+    var page = {
         title: req.body.title,
         body: req.body.body,
         tags: req.body.tags,
         template: req.body.template,
         published: req.body.published,
         updated: (new Date()).getTime()
-    });
+    };
+    db.pages.insert(page);
+    db.archive.insert(page);
 
     res.send(200);
 });
 
 app.post('/puca/api/pages/:title', function(req, res) {
     var title = req.params.title;
-    db.pages.update({title: title}, {
+    var page = {
         title: req.body.title,
         body: req.body.body,
         tags: req.body.tags,
         template: req.body.template,
         published: req.body.published,
         updated: (new Date()).getTime()
-    });
+    };
+    db.pages.update({title: title}, page);
+    db.archive.insert(page);
 
     res.send(200);
 });
@@ -139,6 +145,33 @@ function returnPageWithTitleForRequest(title, req, res) {
         }
     });
 }
+
+app.get('/puca/api/pages/:title/archive', function(req, res) {
+    var title = req.params.title;
+    db.archive.find({title: title}, function (err, docs) {
+        if (err) {
+            res.send(404);
+        } else {
+            var history = [];
+            docs.forEach(function (doc) {
+                history.push({
+                    title: doc.title,
+                    published: doc.published,
+                    updated: doc.updated
+                });
+            });
+            if (req.xhr) {
+                res.set('Content-Type', 'application/json');
+                res.send(history);
+            } else {
+                // jsonp
+                var code = "puca.page = " + history.toSource() + ";"; 
+                res.set('Content-Type', 'text/javascript');
+                res.send(code);
+            }
+        }
+    });
+});
 
 app.get('/puca/plugins/:plugin.js', function(req, res) {
     var plugin = req.params.plugin;

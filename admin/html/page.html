@@ -1,13 +1,13 @@
 <section>
     <ul class="nav nav-tabs">
-        <li ng-repeat="plugin in plugins" class="disabled" ng-class="getClassName(plugin)">
+        <li ng-repeat="plugin in plugins" ng-class="getClassName(plugin)">
             <a class="hand" ng-click="select(plugin)">
                 {{plugin.name}}
             </a>
         </li>
     </ul>
     
-    <form role="form">
+    <form role="form" ng-class="(plugins[0].isActive) ? '' : 'hidden'">
     <p>&nbsp;</p>
     <p>
         <input ng-model="page.title" type="text" class="form-control" placeholder="Page Title" />
@@ -36,4 +36,17 @@
     </p>
         
     </form>
+
+    <table class="table table-striped table-hover" ng-class="(plugins[1].isActive) ? '' : 'hidden'">
+        <tbody>
+            <tr ng-repeat="entry in history">
+                <td>{{entry.title}}</td>
+                <td>
+                    <span ng-if="entry.published == true">Yes</span>
+                    <span ng-if="entry.published == false">No</span>
+                </td>
+                <td>{{prettyDate(entry.updated)}}</td>
+            </tr>
+        </tbody>
+    </table>
 </section>

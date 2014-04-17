@@ -1,4 +1,4 @@
-var pageController = ["$scope", "$http", "$routeParams", function ($scope, $http, $routeParams) {
+var pageController = ["$scope", "$http", "$routeParams", "$location", function ($scope, $http, $routeParams, $location) {
     
     var editor = CKEDITOR.replace("body-editor");
     editor.on("change", function(){
@@ -8,9 +8,8 @@ var pageController = ["$scope", "$http", "$routeParams", function ($scope, $http
     document.title = ($routeParams.title) ? "Editing: " + $routeParams.title : "Creating New Page";
     
     $scope.plugins = [
-        {name: "Edit", isActive: true },
-        {name: "History", isActive: false },
-        {name: "Comments", isActive: false }
+        {name: "Edit", click: $scope.showEditView, isActive: true },
+        {name: "History", click: $scope.showArchiveView, isActive: false }
     ];
     
     $scope.templates = [];
@@ -48,7 +47,7 @@ var pageController = ["$scope", "$http", "$routeParams", function ($scope, $http
         success(function(data) {
             $scope.page = data;
             setTemplateObject();
-            $scope.history = [1];
+            getHistory();
         }).
         error(function(data, status, headers, config) {
             // called asynchronously if an error occurs
@@ -56,6 +55,21 @@ var pageController = ["$scope", "$http", "$routeParams", function ($scope, $http
         });
     }
     
+    function getHistory(){
+        if ($scope.page.title) {
+            $http({
+                method: 'GET',
+                url: "http://127.0.0.1:3000/puca/api/pages/" + $scope.page.title + "/archive",
+                headers: { "X-Requested-With": "XMLHttpRequest" }
+            }).
+            success(function(data) {
+                $scope.history = data;
+            }).
+            error(function(data, status, headers, config) {
+            });
+        }
+    }
+
     function setTemplateObject() {
         if (!$scope.page.template) {
             $scope.selectedTemplate = defaultTemplate;
@@ -77,13 +91,11 @@ var pageController = ["$scope", "$http", "$routeParams", function ($scope, $http
     };
 
     $scope.select = function (plugin) {
-        /*
         $scope.plugins.forEach(function(plugin){
             plugin.isActive = false;
         });
         
         plugin.isActive = true;
-        */
     };
     
     $scope.getClassName = function (plugin) {
@@ -114,7 +126,7 @@ var pageController = ["$scope", "$http", "$routeParams", function ($scope, $http
             data: data
         }).
         success(function(data, status, headers, config) {
-            $scope.history = [1];
+            getHistory();
         }).
         error(function(data, status, headers, config) {
         });
@@ -132,5 +144,9 @@ var pageController = ["$scope", "$http", "$routeParams", function ($scope, $http
             // or server returns response with an error status.
         });
         window.location.hash = "#/pages";
+    };
+    
+    $scope.prettyDate = function (int) {
+        return humaneDate(new Date(int));
     };
 }];
